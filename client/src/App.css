@@ -1,1 +1,29 @@
 *{margin: 0;}
+
+.app{
+    width: 100vw;
+    height: 100vh;
+}
+
+.app__nav{
+    height: 100px;
+    background-color: lightgray;
+    width: 100%;
+}
+
+.app__header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.app__header  a{
+    text-decoration: none;
+    color: black;
+}
+
+.app__headerRight > a{
+    padding: 10px;
+    background-color: gray;
+}
