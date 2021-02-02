@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { useStateValue } from "../ContextAPI/StateProvider";
 import "./Header.css";
 
 function Header() {
   const [{ isAuth }, dispatch] = useStateValue();
+  const [isLogin, setIsLogin] = useState(true);
   return (
     <div className="header">
       <div className="container header">
@@ -15,8 +16,11 @@ function Header() {
         </div>
         <div className="header__right">
           {!isAuth ? (
-            <Link to="/login">
-              <h3>Login</h3>
+            <Link
+              to={isLogin ? "/login" : "/register"}
+              onClick={() => setIsLogin(!isLogin)}
+            >
+              <h3>{isLogin ? "Login" : "Register"}</h3>
             </Link>
           ) : (
             <div className="header__gallery">
