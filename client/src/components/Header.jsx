@@ -4,15 +4,15 @@ import "./Header.css";
 
 function Header() {
   return (
-    <div className="app__header">
-      <div className="container app__header">
-        <div className="app__headerLeft">
+    <div className="header">
+      <div className="container header">
+        <div className="header__left">
           <Link to="/">
             <h1>Home</h1>
           </Link>
         </div>
-        <div className="app_headerRight">
-          <Link>
+        <div className="header__right">
+          <Link to="/login">
             <h3>Login</h3>
           </Link>
         </div>
