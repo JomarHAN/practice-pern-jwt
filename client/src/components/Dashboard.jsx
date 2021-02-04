@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useStateValue } from "../ContextAPI/StateProvider";
+import "./Dashboard.css";
 
 function Dashboard() {
   const [{ isAuth }] = useStateValue();
@@ -16,7 +17,11 @@ function Dashboard() {
   useEffect(() => {
     getUserName();
   }, []);
-  return isAuth ? <h1>Welcome {userName}</h1> : <h1>you need to login</h1>;
+  return (
+    <div className="dashboard">
+      {isAuth ? <h1>Welcome {userName}</h1> : <h1>you need to login</h1>}
+    </div>
+  );
 }
 
 export default Dashboard;
