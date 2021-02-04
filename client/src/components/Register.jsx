@@ -20,19 +20,19 @@ function Register() {
     e.preventDefault();
     try {
       const body = { name, email, password };
-      // const response = await fetch("http://localhost:5000/auth/register", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(body),
-      // });
-      // const parseRes = await response.json();
-      console.log("result >>> ", name);
-      console.log("result >>> ", email);
-      console.log("result >>> ", password);
-      dispatch({
-        type: "SET_ISAUTH",
-        isAuth: true,
+      const response = await fetch("http://localhost:5000/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
       });
+      const parseRes = await response.json();
+      if (parseRes.token) {
+        localStorage.setItem("token", parseRes.token);
+        dispatch({
+          type: "SET_ISAUTH",
+          isAuth: true,
+        });
+      }
     } catch (error) {
       console.error(error.message);
     }

@@ -14,12 +14,26 @@ function Login() {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  const onLogin = (e) => {
+  const onLogin = async (e) => {
     e.preventDefault();
-    dispatch({
-      type: "SET_ISAUTH",
-      isAuth: true,
-    });
+    try {
+      const body = { email, password };
+      const response = await fetch("http://localhost:5000/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const parseRes = await response.json();
+      if (parseRes.token) {
+        localStorage.setItem("token", parseRes.token);
+        dispatch({
+          type: "SET_ISAUTH",
+          isAuth: true,
+        });
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
   };
   return (
     <div className="login">
@@ -28,7 +42,7 @@ function Login() {
         <input
           className="form-control my-3"
           type="email"
-          name="Email"
+          name="email"
           placeholder="Email"
           value={email}
           onChange={(e) => onChange(e)}
@@ -41,9 +55,7 @@ function Login() {
           value={password}
           onChange={(e) => onChange(e)}
         />
-        <button className="btn btn-success form-control" onClick={onLogin}>
-          Submit
-        </button>
+        <button className="btn btn-success form-control">Submit</button>
       </form>
     </div>
   );

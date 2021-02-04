@@ -6,6 +6,13 @@ import "./Header.css";
 function Header() {
   const [{ isAuth }, dispatch] = useStateValue();
   const [isLogin, setIsLogin] = useState(true);
+  const onLogOut = () => {
+    localStorage.removeItem("token");
+    dispatch({
+      type: "SET_ISAUTH",
+      isAuth: false,
+    });
+  };
   return (
     <div className="header">
       <div className="container header">
@@ -27,16 +34,7 @@ function Header() {
               <Link to="gallery">
                 <h3>Gallery</h3>
               </Link>
-              <button
-                onClick={() =>
-                  dispatch({
-                    type: "SET_ISAUTH",
-                    isAuth: false,
-                  })
-                }
-              >
-                Log Out
-              </button>
+              <button onClick={onLogOut}>Log Out</button>
             </div>
           )}
         </div>

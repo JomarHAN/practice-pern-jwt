@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -14,7 +14,30 @@ import Dashboard from "./components/Dashboard";
 import Gallery from "./components/Gallery";
 
 function App() {
-  const [{ isAuth }] = useStateValue();
+  const [{ isAuth }, dispatch] = useStateValue();
+
+  const isVerify = async () => {
+    if (localStorage.token) {
+      const response = await fetch("http://localhost:5000/auth/is-verify", {
+        method: "GET",
+        headers: { token: localStorage.token },
+      });
+      const parseRes = await response.json();
+      parseRes
+        ? dispatch({
+            type: "SET_ISAUTH",
+            isAuth: true,
+          })
+        : dispatch({
+            type: "SET_ISAUTH",
+            isAuth: false,
+          });
+    }
+  };
+
+  useEffect(() => {
+    isVerify();
+  }, []);
 
   return (
     <Router>
