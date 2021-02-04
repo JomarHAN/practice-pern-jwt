@@ -16,16 +16,31 @@ function Register() {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  const onRegister = () => {
-    dispatch({
-      type: "SET_ISAUTH",
-      isAuth: true,
-    });
+  const onRegister = async (e) => {
+    e.preventDefault();
+    try {
+      const body = { name, email, password };
+      // const response = await fetch("http://localhost:5000/auth/register", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(body),
+      // });
+      // const parseRes = await response.json();
+      console.log("result >>> ", name);
+      console.log("result >>> ", email);
+      console.log("result >>> ", password);
+      dispatch({
+        type: "SET_ISAUTH",
+        isAuth: true,
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
   };
   return (
     <div className="register">
       <h1 className="mt-5">Register</h1>
-      <form className="register__form">
+      <form className="register__form" onSubmit={(e) => onRegister(e)}>
         <input
           className="form-control my-3"
           type="text"
@@ -50,9 +65,7 @@ function Register() {
           value={password}
           onChange={(e) => onChange(e)}
         />
-        <button className="btn btn-success form-control" onClick={onRegister}>
-          Submit
-        </button>
+        <button className="btn btn-success form-control">Submit</button>
       </form>
     </div>
   );
