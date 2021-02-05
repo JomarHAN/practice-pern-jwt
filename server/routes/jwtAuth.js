@@ -12,7 +12,7 @@ router.post('/register', validInfo, async (req, res) => {
         const { name, password, email } = req.body
 
         //2. Check if email has been registered yet, if it exists then throw an error
-        const verify = await pool.query('SELECT * FROM usersImage WHERE user_email = $1', [email])
+        const verify = await pool.query('SELECT * FROM userInfo WHERE user_email = $1', [email])
 
         if (verify.rows.length !== 0) {
             return res.status(401).json("Email Already Registered")
@@ -24,7 +24,7 @@ router.post('/register', validInfo, async (req, res) => {
         const bcryptPwd = await bcrypt.hash(password, salt)
 
         //4. Insert user's info into database and returning back
-        const newUser = await pool.query("INSERT INTO usersImage (user_name, user_password, user_email) VALUES($1, $2, $3) RETURNING *", [name, bcryptPwd, email])
+        const newUser = await pool.query("INSERT INTO userInfo (user_name, user_password, user_email) VALUES($1, $2, $3) RETURNING *", [name, bcryptPwd, email])
 
         //5. Give user a token to access
         const token = await jwtGenerator(newUser.rows[0].user_id)
@@ -46,7 +46,7 @@ router.post('/login', validInfo, async (req, res) => {
         const { email, password } = req.body
 
         //2. check if email exist, if no then throw an error
-        const userVerified = await pool.query("SELECT * FROM usersImage WHERE user_email = $1", [email])
+        const userVerified = await pool.query("SELECT * FROM userInfo WHERE user_email = $1", [email])
         if (userVerified.rows.length === 0) {
             res.status(401).json("Email or Password is incorrect!")
         }

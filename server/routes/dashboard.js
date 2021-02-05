@@ -7,7 +7,7 @@ const { cloudinary } = require('../utils/cloudinary');
 //get user name
 router.get('/', authentication, async (req, res) => {
     try {
-        const userName = await pool.query("SELECT * FROM usersImage WHERE user_id = $1", [req.user])
+        const userName = await pool.query("SELECT * FROM userInfo WHERE user_id = $1", [req.user])
         res.json(userName.rows[0])
 
     } catch (error) {
@@ -21,26 +21,32 @@ router.post('/upload', (req, res) => {
     const data = {
         title: req.body.title,
         image: req.body.image,
-        userId: req.body.userId
+        user: req.body.user
     }
 
-    cloudinary.uploader.upload(data.image)
+    cloudinary.uploader.upload(data.image, {
+        upload_preset: "testing"
+    })
         .then((image) => {
             pool.connect((err, client) => {
-                const insertQuery = 'INSERT INTO usersImage (user_gallery) VALUES($1) WHERE user_id = $2 RETURNING *';
-                const values = [image.secure_url, data.userId]
+                const insertQuery = 'INSERT INTO gallery (image_title, image_url, cloud_id, user_id) VALUES($1, $2, $3, $4) RETURNING *';
+                const values = [data.title, image.secure_url, image.public_id, data.user]
 
                 client.query(insertQuery, values)
                     .then((result) => {
-                        res.json(result)
+                        res.status(201).send({
+                            message: "Successfully!",
+                            result
+                        })
                     }).catch((err) => {
-                        console.error(err.message)
-                        res.status(500).json('Fairlure')
+                        res.status(500).send({
+                            message: "Failure",
+                            err
+                        })
                     })
             })
         }).catch((err) => {
-            console.error(err.message)
-            res.status(500).json('Fairlure')
+            res.status(500).json("Image could not uploaded!")
         })
 })
 
