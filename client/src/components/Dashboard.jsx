@@ -11,7 +11,11 @@ function Dashboard() {
       headers: { token: localStorage.token },
     });
     const parseRes = await response.json();
-    setUserName(parseRes.user_name);
+    if (parseRes.user_name) {
+      setUserName(parseRes.user_name);
+    } else {
+      localStorage.removeItem("token");
+    }
   };
 
   useEffect(() => {
