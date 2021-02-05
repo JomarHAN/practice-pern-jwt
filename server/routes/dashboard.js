@@ -50,4 +50,24 @@ router.post('/upload', (req, res) => {
         })
 })
 
+//retrieve images
+router.get('/retrieve/:user', (req, res) => {
+    const user = req.params.user
+
+    pool.connect((err, client) => {
+        const insertQuery = 'SELECT * FROM gallery WHERE user_id = $1';
+        const values = [user]
+
+        client.query(insertQuery, values)
+            .then((result) => {
+                res.json(result)
+            }).catch((err) => {
+                res.status(500).send({
+                    message: "Failure",
+                    err
+                })
+            })
+    })
+})
+
 module.exports = router;
