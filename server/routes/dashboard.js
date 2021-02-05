@@ -70,4 +70,36 @@ router.get('/retrieve/:user', (req, res) => {
     })
 })
 
+//delete images
+router.delete('/delete', (req, res) => {
+    const cloud_id = req.query.cloud_id;
+
+    cloudinary.uploader.destroy(cloud_id)
+        .then(() => {
+            pool.connect((err, client) => {
+                const insertQuery = 'DELETE FROM gallery WHERE cloud_id = $1';
+                const values = [cloud_id];
+
+                client.query(insertQuery, values)
+                    .then((result) => {
+                        res.status(200).send({
+                            message: "Image was deleted!",
+                            result
+                        })
+                    }).catch((err) => {
+                        res.status(500).send({
+                            message: "Image could not be deleted!",
+                            err
+                        })
+                    })
+            })
+        }).catch((err) => {
+            res.status(500).send({
+                message: "Failure",
+                err
+            })
+        })
+})
+
+
 module.exports = router;
