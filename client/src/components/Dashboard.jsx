@@ -11,6 +11,7 @@ function Dashboard() {
       headers: { token: localStorage.token },
     });
     const parseRes = await response.json();
+    console.log(parseRes);
     if (parseRes.user_name) {
       setUserName(parseRes.user_name);
     } else {
