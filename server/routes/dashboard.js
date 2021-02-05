@@ -102,4 +102,48 @@ router.delete('/delete', (req, res) => {
 })
 
 
+//update images
+router.put('/update', (req, res) => {
+    const cloud_id = req.query.cloud_id;
+
+    const data = {
+        title: req.body.title,
+        image: req.body.image
+    }
+
+    cloudinary.uploader.destroy(cloud_id)
+        .then(() => {
+            cloudinary.uploader.upload(data.image, {
+                upload_preset: "testing"
+            }).then((image) => {
+                pool.connect((err, client) => {
+                    const insertQuery = 'UPDATE gallery SET image_title = $1, image_url = $2, cloud_id = $3 WHERE cloud_id = $4';
+                    const values = [data.title, image.secure_url, image.public_id, cloud_id]
+
+                    client.query(insertQuery, values)
+                        .then(() => {
+                            res.status(200).send({
+                                message: "Updated Successfully!"
+                            })
+                        }).catch((err) => {
+                            res.status(500).send({
+                                message: "Failure",
+                                err
+                            })
+                        })
+                })
+            }).catch((err) => {
+                res.status(500).send({
+                    message: "Failure",
+                    err
+                })
+            })
+        }).catch((err) => {
+            res.status(500).send({
+                message: "Failure",
+                err
+            })
+        })
+})
+
 module.exports = router;
