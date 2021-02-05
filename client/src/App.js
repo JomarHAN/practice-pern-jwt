@@ -12,6 +12,8 @@ import Register from "./components/Register";
 import { useStateValue } from "./ContextAPI/StateProvider";
 import Dashboard from "./components/Dashboard";
 import Gallery from "./components/Gallery";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [{ isAuth }, dispatch] = useStateValue();
@@ -41,6 +43,7 @@ function App() {
 
   return (
     <Router>
+      <ToastContainer />
       <div className="app">
         <div className="app__nav">
           <Header />

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 import "./Upload.css";
 
 function Upload({ userId }) {
@@ -40,7 +41,14 @@ function Upload({ userId }) {
         }),
       });
       const parseRes = await response.json();
-      console.log(parseRes);
+      if (parseRes.result) {
+        toast.success(parseRes.message);
+        setTitle("");
+        setImageFile("");
+        setPreview("");
+      } else {
+        toast.error(parseRes.message);
+      }
     } catch (error) {
       console.error(error.message);
     }

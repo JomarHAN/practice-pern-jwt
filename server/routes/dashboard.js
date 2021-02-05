@@ -121,9 +121,10 @@ router.put('/update', (req, res) => {
                     const values = [data.title, image.secure_url, image.public_id, cloud_id]
 
                     client.query(insertQuery, values)
-                        .then(() => {
+                        .then((result) => {
                             res.status(200).send({
-                                message: "Updated Successfully!"
+                                message: "Updated Successfully!",
+                                result
                             })
                         }).catch((err) => {
                             res.status(500).send({
