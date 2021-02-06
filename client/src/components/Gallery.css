@@ -4,3 +4,15 @@
     overflow: scroll;
     justify-content: space-around;
 }
+
+.gallery__item{
+    margin: 10px;
+}
+
+.gallery__groupBtn{
+    display: flex;
+}
+
+.gallery__groupBtn .btn{
+    flex: 0.5;
+}

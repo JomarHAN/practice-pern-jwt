@@ -19,12 +19,34 @@ function Gallery() {
     getImages();
   }, []);
 
+  const handleRemove = async (cloud_id) => {
+    try {
+      const res = await fetch(`/dashboard/delete?cloud_id=${cloud_id}`, {
+        method: "DELETE",
+      });
+      setImages(images.filter((image) => image.cloud_id !== cloud_id));
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   return (
     <div className="gallery">
       <h1>Gallery here</h1>
       <div className="gallery__container">
         {images?.map((image) => (
-          <ImageCom image={image} />
+          <div className="gallery__item">
+            <ImageCom image={image} />
+            <div className="gallery__groupBtn">
+              <button className="btn btn-primary">Edit</button>
+              <button
+                className="btn btn-danger"
+                onClick={() => handleRemove(image.cloud_id)}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
         ))}
       </div>
     </div>
