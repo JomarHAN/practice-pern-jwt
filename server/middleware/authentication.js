@@ -9,9 +9,7 @@ module.exports = async (req, res, next) => {
 
     try {
         const payload = await jwt.verify(jwtToken, process.env.SECRET_TOKEN)
-        if (!payload.user) {
-            return true
-        }
+
         req.user = payload.user
         next()
     } catch (error) {

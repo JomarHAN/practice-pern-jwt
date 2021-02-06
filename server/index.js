@@ -13,4 +13,7 @@ app.use('/auth', require('./routes/jwtAuth'))
 //dashboard
 app.use('/dashboard', require('./routes/dashboard'))
 
+//gallery
+app.use('/gallery', require('./routes/gallery'))
+
 app.listen(port, () => console.log(`Listening on localhost:${port}`))

@@ -21,7 +21,7 @@ function Gallery() {
 
   const handleRemove = async (cloud_id) => {
     try {
-      const res = await fetch(`/dashboard/delete?cloud_id=${cloud_id}`, {
+      const res = await fetch(`/gallery/delete?cloud_id=${cloud_id}`, {
         method: "DELETE",
       });
       setImages(images.filter((image) => image.cloud_id !== cloud_id));
