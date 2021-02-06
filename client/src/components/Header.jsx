@@ -4,9 +4,9 @@ import { useStateValue } from "../ContextAPI/StateProvider";
 import "./Header.css";
 
 function Header() {
-  const [{ isAuth }, dispatch] = useStateValue();
+  const [{ isAuth, isGallery }, dispatch] = useStateValue();
   const [isLogin, setIsLogin] = useState(true);
-  const [isGallery, setIsGallery] = useState(false);
+
   const onLogOut = () => {
     localStorage.removeItem("token");
     dispatch({
@@ -18,7 +18,15 @@ function Header() {
     <div className="header">
       <div className="container header">
         <div className="header__left">
-          <Link to="/" onClick={() => setIsGallery(!isGallery)}>
+          <Link
+            to="/"
+            onClick={() =>
+              dispatch({
+                type: "SET_ISGALLERY",
+                isGallery: true,
+              })
+            }
+          >
             <h1>Home</h1>
           </Link>
         </div>
@@ -32,16 +40,24 @@ function Header() {
             </Link>
           ) : (
             <div className="header__gallery">
-              {!isGallery ? (
-                <Link to="gallery" onClick={() => setIsGallery(!isGallery)}>
+              {isGallery ? (
+                <Link
+                  to="/gallery"
+                  onClick={() =>
+                    dispatch({
+                      type: "SET_ISGALLERY",
+                      isGallery: false,
+                    })
+                  }
+                >
                   <h3>Gallery</h3>
                 </Link>
               ) : (
                 ""
               )}
-              <button onClick={onLogOut} className="btn btn-danger">
+              <Link to="/" onClick={onLogOut} className="btn btn-danger">
                 Log Out
-              </button>
+              </Link>
             </div>
           )}
         </div>

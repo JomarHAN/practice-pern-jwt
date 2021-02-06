@@ -14,9 +14,10 @@ import Dashboard from "./components/Dashboard";
 import Gallery from "./components/Gallery";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Edit from "./components/Edit";
 
 function App() {
-  const [{ isAuth }, dispatch] = useStateValue();
+  const [{ isAuth, imageEdit }, dispatch] = useStateValue();
 
   const isVerify = async () => {
     if (localStorage.token) {
@@ -73,6 +74,13 @@ function App() {
               path="/gallery"
               render={(props) =>
                 isAuth ? <Gallery {...props} /> : <Redirect to="/" />
+              }
+            />
+            <Route
+              exact
+              path={`/edit/${imageEdit?.image_title}`}
+              render={(props) =>
+                isAuth ? <Edit {...props} /> : <Redirect to="/" />
               }
             />
             <Route exact path="/">

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useStateValue } from "../ContextAPI/StateProvider";
 import "./Gallery.css";
 import ImageCom from "./ImageCom";
 
 function Gallery() {
-  const [{ user }] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
   const [images, setImages] = useState([]);
 
   const getImages = async () => {
@@ -21,13 +23,26 @@ function Gallery() {
 
   const handleRemove = async (cloud_id) => {
     try {
-      const res = await fetch(`/gallery/delete?cloud_id=${cloud_id}`, {
+      const response = await fetch(`/gallery/delete?cloud_id=${cloud_id}`, {
         method: "DELETE",
       });
+      const parseRes = await response.json();
+      console.log(parseRes);
       setImages(images.filter((image) => image.cloud_id !== cloud_id));
     } catch (error) {
       console.error(error.message);
     }
+  };
+
+  const moveToEdit = (image) => {
+    dispatch({
+      type: "SET_ISGALLERY",
+      isGallery: true,
+    });
+    dispatch({
+      type: "SET_IMAGEEDIT",
+      imageEdit: image,
+    });
   };
 
   return (
@@ -38,7 +53,13 @@ function Gallery() {
           <div className="gallery__item">
             <ImageCom image={image} />
             <div className="gallery__groupBtn">
-              <button className="btn btn-primary">Edit</button>
+              <Link
+                to={`/edit/${image.image_title}`}
+                className="btn btn-primary"
+                onClick={() => moveToEdit(image)}
+              >
+                Edit
+              </Link>
               <button
                 className="btn btn-danger"
                 onClick={() => handleRemove(image.cloud_id)}

@@ -1,7 +1,8 @@
 export const initialState = {
     isAuth: false,
     user: null,
-    gallery: []
+    imageEdit: [],
+    isGallery: true
 }
 
 const reducer = (state, action) => {
@@ -16,10 +17,15 @@ const reducer = (state, action) => {
                 ...state,
                 user: action.user
             };
-        case "SET_GALLERY":
+        case "SET_IMAGEEDIT":
             return {
                 ...state,
-                gallery: action.gallery
+                imageEdit: action.imageEdit
+            };
+        case "SET_ISGALLERY":
+            return {
+                ...state,
+                isGallery: action.isGallery
             }
     }
 }

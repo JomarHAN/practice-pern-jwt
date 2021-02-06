@@ -12,6 +12,7 @@ function Dashboard() {
       headers: { token: localStorage.token },
     });
     const parseRes = await response.json();
+    // console.log(parseRes);
     if (parseRes) {
       dispatch({
         type: "SET_USER",
