@@ -6,6 +6,7 @@ import "./Header.css";
 function Header() {
   const [{ isAuth }, dispatch] = useStateValue();
   const [isLogin, setIsLogin] = useState(true);
+  const [isGallery, setIsGallery] = useState(false);
   const onLogOut = () => {
     localStorage.removeItem("token");
     dispatch({
@@ -17,7 +18,7 @@ function Header() {
     <div className="header">
       <div className="container header">
         <div className="header__left">
-          <Link to="/">
+          <Link to="/" onClick={() => setIsGallery(!isGallery)}>
             <h1>Home</h1>
           </Link>
         </div>
@@ -31,9 +32,13 @@ function Header() {
             </Link>
           ) : (
             <div className="header__gallery">
-              <Link to="gallery">
-                <h3>Gallery</h3>
-              </Link>
+              {!isGallery ? (
+                <Link to="gallery" onClick={() => setIsGallery(!isGallery)}>
+                  <h3>Gallery</h3>
+                </Link>
+              ) : (
+                ""
+              )}
               <button onClick={onLogOut} className="btn btn-danger">
                 Log Out
               </button>

@@ -19,10 +19,6 @@ function Dashboard() {
       });
     } else {
       localStorage.removeItem("token");
-      dispatch({
-        type: "SET_ISAUTH",
-        isAuth: false,
-      });
     }
   };
 
@@ -33,7 +29,7 @@ function Dashboard() {
     <div className="dashboard">
       {isAuth ? (
         <div className="dashboard__upload">
-          <h1>Welcome {user.user_name}</h1>
+          <h1>Welcome {user?.user_name}</h1>
           <Upload />
         </div>
       ) : (
