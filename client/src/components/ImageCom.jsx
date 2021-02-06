@@ -3,7 +3,7 @@ import "./ImageCom.css";
 import { Image } from "cloudinary-react";
 
 function ImageCom({ image }) {
-  console.log(image);
+  // console.log(image);
   return (
     <div className="imageCom">
       <Image
