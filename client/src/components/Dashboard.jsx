@@ -1,25 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useStateValue } from "../ContextAPI/StateProvider";
 import "./Dashboard.css";
 import Upload from "./Upload";
 
 function Dashboard() {
-  const [{ isAuth }] = useStateValue();
-  const [userName, setUserName] = useState("");
-  const [userId, setUserId] = useState("");
+  const [{ isAuth, user }, dispatch] = useStateValue();
+
   const getUserName = async () => {
     const response = await fetch("http://localhost:5000/dashboard", {
       method: "GET",
       headers: { token: localStorage.token },
     });
     const parseRes = await response.json();
-    if (parseRes.user_name) {
-      setUserName(parseRes.user_name);
-      setUserId(parseRes.user_id);
-      // console.log(parseRes);
+    if (parseRes) {
+      dispatch({
+        type: "SET_USER",
+        user: parseRes,
+      });
     } else {
       localStorage.removeItem("token");
-      return true;
+      dispatch({
+        type: "SET_ISAUTH",
+        isAuth: false,
+      });
     }
   };
 
@@ -30,8 +33,8 @@ function Dashboard() {
     <div className="dashboard">
       {isAuth ? (
         <div className="dashboard__upload">
-          <h1>Welcome {userName}</h1>
-          <Upload userId={userId} />
+          <h1>Welcome {user.user_name}</h1>
+          <Upload />
         </div>
       ) : (
         <h1>you need to login</h1>

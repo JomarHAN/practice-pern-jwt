@@ -1,5 +1,6 @@
 export const initialState = {
-    isAuth: false
+    isAuth: false,
+    user: null
 }
 
 const reducer = (state, action) => {
@@ -8,6 +9,11 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 isAuth: action.isAuth
+            };
+        case "SET_USER":
+            return {
+                ...state,
+                user: action.user
             }
     }
 }

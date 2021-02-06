@@ -34,7 +34,9 @@ function Header() {
               <Link to="gallery">
                 <h3>Gallery</h3>
               </Link>
-              <button onClick={onLogOut}>Log Out</button>
+              <button onClick={onLogOut} className="btn btn-danger">
+                Log Out
+              </button>
             </div>
           )}
         </div>

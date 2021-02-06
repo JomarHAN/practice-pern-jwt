@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import { useStateValue } from "../ContextAPI/StateProvider";
 import "./Upload.css";
 
-function Upload({ userId }) {
+function Upload() {
   const [title, setTitle] = useState("");
   const [imageFile, setImageFile] = useState("");
   const [preview, setPreview] = useState("");
+  const [{ user }] = useStateValue();
 
   const onImageChange = (e) => {
     setImageFile(e.target.value);
@@ -36,7 +38,7 @@ function Upload({ userId }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: title,
-          user: userId,
+          user: user.user_id,
           image: base64encode,
         }),
       });
