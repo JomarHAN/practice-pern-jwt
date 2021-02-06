@@ -25,15 +25,19 @@ function App() {
         headers: { token: localStorage.token },
       });
       const parseRes = await response.json();
-      parseRes
-        ? dispatch({
-            type: "SET_ISAUTH",
-            isAuth: true,
-          })
-        : dispatch({
-            type: "SET_ISAUTH",
-            isAuth: false,
-          });
+
+      if (parseRes === "Unauthorize") {
+        dispatch({
+          type: "SET_ISAUTH",
+          isAuth: false,
+        });
+        localStorage.removeItem("token");
+      } else {
+        dispatch({
+          type: "SET_ISAUTH",
+          isAuth: true,
+        });
+      }
     }
   };
 
