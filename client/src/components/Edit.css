@@ -1,0 +1,29 @@
+.edit{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.edit__form{
+    width: 400px;
+}
+
+.edit__groupImg{
+    display: flex;
+    width: 100%;
+}
+
+.edit__imgRight,
+.edit__imgLeft{
+    flex: 0.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit__imgRight > img,
+.edit__imgLeft > img{
+    width: 400px;
+    margin: 20px;
+    border-radius: 5px;
+}
