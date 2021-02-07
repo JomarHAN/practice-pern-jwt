@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useStateValue } from "../ContextAPI/StateProvider";
 import "./Header.css";
 
@@ -13,6 +14,7 @@ function Header() {
       type: "SET_ISAUTH",
       isAuth: false,
     });
+    toast.info("Just logged out!");
   };
   return (
     <div className="header">

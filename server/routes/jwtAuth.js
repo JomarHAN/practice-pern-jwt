@@ -48,13 +48,17 @@ router.post('/login', validInfo, async (req, res) => {
         //2. check if email exist, if no then throw an error
         const userVerified = await pool.query("SELECT * FROM userInfo WHERE user_email = $1", [email])
         if (userVerified.rows.length === 0) {
-            res.status(401).json("Email or Password is incorrect!")
+            res.status(401).send({
+                message: "Email or Password is Incorrect!",
+            })
         }
 
         //3. Check if incoming password the same user into database
         const userInfo = await bcrypt.compare(password, userVerified.rows[0].user_password)
         if (!userInfo) {
-            res.status(401).json("Email or Password is incorrect!")
+            res.status(401).send({
+                message: "Email or Password is Incorrect!",
+            })
         }
 
         //4. give user a token
@@ -63,7 +67,9 @@ router.post('/login', validInfo, async (req, res) => {
         res.json({ token })
     } catch (error) {
         console.error(error.message)
-        res.status(500).json("Server Error")
+        res.status(500).send({
+            message: "Server Error",
+        })
     }
 })
 

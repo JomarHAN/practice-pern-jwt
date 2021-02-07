@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Register.css";
 import { useStateValue } from "../ContextAPI/StateProvider";
+import { toast } from "react-toastify";
 
 function Register() {
   const [{}, dispatch] = useStateValue();
@@ -32,6 +33,9 @@ function Register() {
           type: "SET_ISAUTH",
           isAuth: true,
         });
+        toast.success("Registered Successfully!");
+      } else {
+        toast.error(parseRes);
       }
     } catch (error) {
       console.error(error.message);

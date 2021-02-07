@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 import { useStateValue } from "../ContextAPI/StateProvider";
 import "./Login.css";
 
@@ -30,6 +31,9 @@ function Login() {
           type: "SET_ISAUTH",
           isAuth: true,
         });
+        toast.success("Loggin successfully!");
+      } else {
+        toast.error(parseRes.message);
       }
     } catch (error) {
       console.error(error.message);
